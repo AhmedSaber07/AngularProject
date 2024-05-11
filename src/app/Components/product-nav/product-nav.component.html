@@ -1,0 +1,15 @@
+<nav class="navbar bg-dark navbar-expand-lg">
+    <div class="container-fluid">
+    <input class="form-control w-25 fw-bold" type="text" [(ngModel)]="TxtSearch" placeholder="Seacrh By Product Name" (keyup)="onTxtSearchChange()">
+    <select class="form-select w-25 fw-bold" [(ngModel)]="FuncategoryId" (change)="onFuncategoryIdChange()">
+      <option selected [value]="0">All</option>
+      @if(Categories.length>0)
+      {
+          @for(category of Categories;track category.ID)
+          { 
+              <option [value]="category.ID">{{category.Name}}</option>
+          }
+      }
+  </select>
+</div>
+    </nav>

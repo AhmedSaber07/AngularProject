@@ -1,0 +1,60 @@
+<app-product-nav
+  (searchChange)="handleSearchChange($event)"
+  (categoryChange)="handleCategoryChange($event)"
+  [Categories]="Categories"
+>
+</app-product-nav>
+<div class="container-fluid">
+  <div class="row">
+    @if(Products.length>0) { @for(product of Products; track product.ID) {
+    <div class="row col-md-3 d-flex justify-content-around mt-3">
+      <div class="card" style="width: 18rem">
+        <img
+          [src]="product.Image"
+          class="img-fluid w-50 mt-2 mx-auto"
+          appChangeOpacityOFImage
+          alt="productImage"
+        />
+        <!-- <div class="card-body"> -->
+          <h5 class="card-title">{{ product.Name }}</h5>
+          <!-- <h5 class="card-text">{{product.Description}}</h5> -->
+        <!-- </div> -->
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex fw-bold justify-content-between">
+            <span class="text-dark">Price</span> {{ product.Price | currency }}
+          </li>
+          <li
+            class="list-group-item d-flex fw-bold justify-content-between"
+            [ngClass]="{ 'text-danger': product.Quantity <= 1 }"
+          >
+            <span class="text-dark">Quantity</span>
+            {{ product.Quantity | quantityState }}
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            <b>Status</b>
+            @if (currentDate >= product.ReleaseDate) {
+            <span class="badge bg-success text-white">Available</span>
+            } @if (currentDate < product.ReleaseDate) {
+            <span class="badge bg-primary text-white">UpComing</span>
+            }
+          </li>
+        </ul>
+        <div class="d-flex mt-2 mb-2 justify-content-between">
+          <a
+            class="btn btn-danger"
+            [ngClass]="{ disabled: product.Quantity < 1 || currentDate < product.ReleaseDate }"
+            [routerLink]="['/ShoppingCart']"
+            ><i class="fa fa-cart-plus" aria-hidden="true"></i> Add To Cart</a
+          >
+          <a
+            class="btn btn-outline-primary"
+            [ngClass]="{ disabled: product.Quantity < 1 }"
+            [routerLink]="['/Products',product.ID]"
+            ><i class="fa fa-eye" aria-hidden="true"></i> Details</a
+          >
+        </div>
+      </div>
+    </div>
+    } }
+  </div>
+</div>
